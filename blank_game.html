@@ -14,19 +14,19 @@
 <script type="text/javascript">
 
     var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
-
+    var score = 0;
+    var scoreText;
     //These three functions are required for phaser!
     //Preload loads everything your game needs - sprites, images, etc
     function preload() {
         game.load.image('sky', 'assets/castle.jpg'); 
-        game.load.image('ground', 'assets/platform.png');
-        game.load.spritesheet('hp', 'link.png', 100, 112);
+        game.load.image('ground', 'assets/index.png');
+        game.load.spritesheet('hp', 'link.png', 100, 115);
+        game.load.image('navis', 'assets/navi.gif');
 
     }
-
-    //Create sets up your game for you - most of your code will probably be here!
     function create() {
-
+        
         //add the sky
         game.add.sprite(0, 0, 'sky');
 
@@ -55,17 +55,29 @@
         //give player gravity
         player.body.gravity.y = 300;
 
-        player.animations.add('left', [1, 2, 9, ], 10, true);
-        player.animations.add('right', [7, 8, 9], 10, true);
+        player.animations.add('left', [1, 17, 18,], 10, true);
+        player.animations.add('right', [36, 9, 20, 10], 10, true);
+
 
 
         //  Our controls.
         cursors = game.input.keyboard.createCursorKeys();
 
-    }
+        navis = game.add.group();
 
-    //Update is continously called while the game is being played - add things like
-    //tracking arrow keys, etc here!
+        navis.enableBody = true;
+
+        //  Here we'll create 12 of them evenly spaced apart
+        for (var i = 0; i < 12; i++)
+            var navi = navis.create(i * 70, 0, 'navis');
+            navi.body.gravity.y = 50;
+            navi.body.bounce.y = 0.7 + Math.random() * 0.2;
+        scoreText = game.add.text(16, 16, 'score: 0 follow my ig @Selly.Ann', { 
+        fontSize: '25px', fill: '#fff' });
+            timer= game.time.create();
+            timer.start();
+            timer.loop(400,createnavis);
+    }
     function update() {
 
     //check if player is touching the platform - stops from falling through ground
@@ -95,15 +107,28 @@
         {
             //  Stand still
             player.animations.stop();
-
             player.frame = 0;
         }
+        game.physics.arcade.collide(navis, platforms);
+        game.physics.arcade.overlap(player, navis, collectNavi, null, this);
 
     }
 
     //add any extra functions you need here! 
 
+    function collectNavi (player, navi) {
+        
+        navi.kill();
+        score += 10;
+        scoreText.text = 'Score: ' + score;
 
+}   
+    function createnavis(){
+        var value = Math.random() * 800;
+        var navi = navis.create( value, 0, 'navis');
+            navi.body.gravity.y = 50;
+            navi.body.bounce.y = 0.7 + Math.random() * 0.2;
+    }
 </script>
 
 </body>

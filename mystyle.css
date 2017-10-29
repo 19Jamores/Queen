@@ -6,11 +6,14 @@
 }
 body {
     background-image: url('http://data.whicdn.com/images/273482941/large.jpg')
+   
 }
 
 
 .hidden {
     display: Sup;
 }
-
+h2 {
+    color: white;
+}
 

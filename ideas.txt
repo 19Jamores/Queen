@@ -5,3 +5,16 @@ Add something for your player to collect (stars, coins?)
 
 Explore phaser for more ideas! 
 http://phaser.io/
+
+if(timetext){
+    timeuptext.visible = false;
+
+    timer.loop(400, createbludger);
+    timer.loop(2000, createbludger);
+    coundowntimer = time.loop(phaser.timer.SECOND, update)
+    timer.add(gamertime*1000,timeup, this);
+    timer.start();
+    timeText.visible = true;
+    scoreText.visible = true;
+    {
+        
